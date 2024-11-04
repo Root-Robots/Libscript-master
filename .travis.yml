@@ -1,0 +1,44 @@
+
+language: cpp
+
+before_script:
+  - mkdir build
+  - cd build
+
+matrix:
+  include:
+  - os: linux
+    env:
+      - TEST="Clang 4.0"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+          - llvm-toolchain-trusty-4.0
+        packages:
+          - clang-4.0
+          - gcc-6
+          - g++-6
+    script:
+      - cmake -DCMAKE_C_COMPILER=clang-4.0 -DCMAKE_CXX_COMPILER=clang++-4.0 ..
+      - make
+      - cd tests
+      - ctest
+  - os: linux
+    env:
+      - TEST="Codecov"
+    addons:
+      apt:
+        sources:
+          - ubuntu-toolchain-r-test
+        packages:
+          - gcc-6
+          - g++-6
+    script:
+      - cmake -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-6" ..
+      - make
+      - cd tests
+      - ctest
+      - cd ..
+      - cd ..
+      - bash <(curl -s https://codecov.io/bash)

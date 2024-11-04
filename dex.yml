@@ -1,0 +1,10 @@
+
+input: 
+  - include
+  - src
+output: doc
+variables:
+  project:
+    name: libscript
+  markdown:
+    just_the_docs: true

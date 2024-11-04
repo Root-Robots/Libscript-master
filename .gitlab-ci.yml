@@ -1,0 +1,13 @@
+image: localhost:5000/cpp-runner:latest
+
+build-job:
+  stage: build
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
+    - gcc --version
+    - cmake --version
+    - mkdir build && cd build
+    - cmake ..
+    - make
+    - cd tests
+    - ctest
